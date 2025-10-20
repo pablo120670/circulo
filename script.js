@@ -1,112 +1,80 @@
-// JavaScript para el texto circular
+// JavaScript simplificado para el texto circular
 console.log('Script cargado correctamente');
 
 document.addEventListener('DOMContentLoaded', function() {
     console.log('DOM cargado, iniciando creación del texto circular');
     
-    function createCircularText(element) {
-        console.log('Creando texto circular para elemento:', element);
-        
-        const text = element.getAttribute('data-text') || 'TEXTO CIRCULAR';
-        const size = parseInt(element.getAttribute('data-size')) || 200;
-        const color = element.getAttribute('data-color') || '#ffffff';
-        const speed = parseFloat(element.getAttribute('data-speed')) || 25;
-        const fontSize = parseInt(element.getAttribute('data-font-size')) || 12;
-        const separator = element.getAttribute('data-separator') || '✦';
-        const spacing = parseFloat(element.getAttribute('data-spacing')) || 1.2;
-        const separatorMode = element.getAttribute('data-separator-mode') || 'auto';
-        const manualText = element.getAttribute('data-manual-text') || text;
-        
-        console.log('Parámetros:', { text, size, color, speed, fontSize });
-        
-        let spacedText;
-        let repeatedText;
-        
-        if (separatorMode === 'manual') {
-            // Modo manual: usar el texto con guiones y reemplazar por el separador elegido
-            spacedText = manualText.replace(/-/g, ` ${separator} `);
-            repeatedText = `${spacedText} ${separator} ${spacedText}`;
-        } else {
-            // Modo automático: dividir el texto en palabras y agregar separadores
-            const words = text.split(' ').filter(word => word.trim() !== '');
-            spacedText = words.join(` ${separator} `);
-            repeatedText = `${spacedText} ${separator} ${spacedText}`;
-        }
-        
-        console.log('Texto procesado:', repeatedText);
-        
-        // Crear un elemento temporal para medir el texto con espaciado
-        const tempText = document.createElementNS('http://www.w3.org/2000/svg', 'text');
-        tempText.setAttribute('font-size', fontSize);
-        tempText.setAttribute('font-family', 'Poppins, sans-serif');
-        tempText.setAttribute('letter-spacing', `${spacing * 0.1}em`);
-        tempText.textContent = spacedText;
-        tempText.style.visibility = 'hidden';
-        tempText.style.position = 'absolute';
-        tempText.style.top = '-9999px';
-        
-        document.body.appendChild(tempText);
-        const textLength = tempText.getComputedTextLength();
-        document.body.removeChild(tempText);
-        
-        console.log('Longitud del texto:', textLength);
-        
-        // Calcular el radio basado en la longitud del texto con espaciado
-        const circumference = textLength * 1.4; // 40% de margen para separadores
-        const radius = circumference / (2 * Math.PI);
-        const finalRadius = Math.max(radius, size / 4); // Radio mínimo
-        
-        console.log('Radio calculado:', finalRadius);
-        
-        // Crear el SVG
-        const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
-        svg.setAttribute('viewBox', `0 0 ${size} ${size}`);
-        svg.setAttribute('width', size);
-        svg.setAttribute('height', size);
-        
-        // Crear el path circular
-        const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
-        const pathId = 'circlePath-' + Math.random().toString(36).substr(2, 9);
-        path.setAttribute('id', pathId);
-        path.setAttribute('d', `M${size/2},${size/2} m-${finalRadius},0 a${finalRadius},${finalRadius} 0 1,1 ${finalRadius*2},0 a${finalRadius},${finalRadius} 0 1,1 -${finalRadius*2},0`);
-        
-        // Crear el texto
-        const textElement = document.createElementNS('http://www.w3.org/2000/svg', 'text');
-        textElement.setAttribute('font-size', fontSize);
-        textElement.setAttribute('font-family', 'Poppins, sans-serif');
-        textElement.setAttribute('fill', color);
-        textElement.setAttribute('letter-spacing', `${spacing * 0.1}em`);
-        textElement.style.animation = `rotateText ${speed}s linear infinite`;
-        textElement.style.transformOrigin = 'center';
-        
-        const textPath = document.createElementNS('http://www.w3.org/2000/svg', 'textPath');
-        textPath.setAttribute('href', '#' + pathId);
-        textPath.textContent = repeatedText;
-        
-        textElement.appendChild(textPath);
-        
-        // Crear el defs
-        const defs = document.createElementNS('http://www.w3.org/2000/svg', 'defs');
-        defs.appendChild(path);
-        
-        svg.appendChild(defs);
-        svg.appendChild(textElement);
-        
-        element.appendChild(svg);
-        console.log('SVG creado y agregado al elemento');
+    const circularElement = document.querySelector('.circular-text');
+    if (!circularElement) {
+        console.error('No se encontró el elemento .circular-text');
+        return;
     }
     
-    // Aplicar a todos los elementos con clase circular-text
-    const elements = document.querySelectorAll('.circular-text');
-    console.log('Elementos encontrados:', elements.length);
+    console.log('Elemento encontrado:', circularElement);
     
-    elements.forEach(createCircularText);
+    // Parámetros básicos
+    const text = circularElement.getAttribute('data-text') || 'TEXTO CIRCULAR';
+    const size = 400;
+    const color = '#00ff88';
+    const fontSize = 16;
     
-    // Función para recalcular en caso de redimensionamiento
-    window.addEventListener('resize', function() {
-        document.querySelectorAll('.circular-text').forEach(function(element) {
-            element.innerHTML = '';
-            createCircularText(element);
-        });
-    });
+    console.log('Creando SVG con parámetros:', { text, size, color, fontSize });
+    
+    // Crear SVG simple
+    const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+    svg.setAttribute('width', size);
+    svg.setAttribute('height', size);
+    svg.setAttribute('viewBox', `0 0 ${size} ${size}`);
+    
+    // Crear círculo de fondo para referencia
+    const circle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+    circle.setAttribute('cx', size/2);
+    circle.setAttribute('cy', size/2);
+    circle.setAttribute('r', size/2 - 20);
+    circle.setAttribute('fill', 'none');
+    circle.setAttribute('stroke', '#333');
+    circle.setAttribute('stroke-width', '1');
+    
+    // Crear path circular para el texto
+    const radius = size/2 - 30;
+    const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+    const pathId = 'textPath-' + Date.now();
+    path.setAttribute('id', pathId);
+    path.setAttribute('d', `M ${size/2 - radius},${size/2} A ${radius},${radius} 0 1,1 ${size/2 + radius},${size/2} A ${radius},${radius} 0 1,1 ${size/2 - radius},${size/2}`);
+    path.setAttribute('fill', 'none');
+    
+    // Crear texto
+    const textElement = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+    textElement.setAttribute('font-size', fontSize);
+    textElement.setAttribute('font-family', 'Poppins, sans-serif');
+    textElement.setAttribute('fill', color);
+    textElement.style.animation = 'rotateText 20s linear infinite';
+    textElement.style.transformOrigin = 'center';
+    
+    // Crear textPath
+    const textPath = document.createElementNS('http://www.w3.org/2000/svg', 'textPath');
+    textPath.setAttribute('href', '#' + pathId);
+    textPath.textContent = text + ' * ' + text + ' * ' + text;
+    
+    textElement.appendChild(textPath);
+    
+    // Agregar elementos al SVG
+    svg.appendChild(circle);
+    svg.appendChild(path);
+    svg.appendChild(textElement);
+    
+    // Limpiar contenido anterior y agregar SVG
+    circularElement.innerHTML = '';
+    circularElement.appendChild(svg);
+    
+    console.log('SVG creado y agregado exitosamente');
+    
+    // Si después de 2 segundos no se ve nada, mostrar el SVG de respaldo
+    setTimeout(() => {
+        const fallbackSvg = document.getElementById('fallback-svg');
+        if (fallbackSvg && circularElement.children.length === 0) {
+            console.log('Mostrando SVG de respaldo');
+            fallbackSvg.style.display = 'block';
+        }
+    }, 2000);
 });
