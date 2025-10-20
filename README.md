@@ -33,9 +33,14 @@ Para poder ver este proyecto en línea usando GitHub Pages, sigue estos pasos:
 
 ## Archivos del proyecto
 - `index.html` - Contiene el HTML con el texto circular
-- `estyle.css` - Contiene los estilos CSS (si existe)
+- `estyle.css` - Contiene los estilos CSS
+- `script.js` - Contiene la lógica JavaScript
 
 ## Características
 - Texto circular animado
 - Separadores con estrellas (*) en lugar de guiones
 - Personalizable mediante atributos data
+
+## Estado del proyecto
+✅ Proyecto subido a GitHub exitosamente
+✅ Listo para GitHub Pages
