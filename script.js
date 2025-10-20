@@ -1,6 +1,12 @@
 // JavaScript para el texto circular
+console.log('Script cargado correctamente');
+
 document.addEventListener('DOMContentLoaded', function() {
+    console.log('DOM cargado, iniciando creación del texto circular');
+    
     function createCircularText(element) {
+        console.log('Creando texto circular para elemento:', element);
+        
         const text = element.getAttribute('data-text') || 'TEXTO CIRCULAR';
         const size = parseInt(element.getAttribute('data-size')) || 200;
         const color = element.getAttribute('data-color') || '#ffffff';
@@ -10,6 +16,8 @@ document.addEventListener('DOMContentLoaded', function() {
         const spacing = parseFloat(element.getAttribute('data-spacing')) || 1.2;
         const separatorMode = element.getAttribute('data-separator-mode') || 'auto';
         const manualText = element.getAttribute('data-manual-text') || text;
+        
+        console.log('Parámetros:', { text, size, color, speed, fontSize });
         
         let spacedText;
         let repeatedText;
@@ -25,6 +33,8 @@ document.addEventListener('DOMContentLoaded', function() {
             repeatedText = `${spacedText} ${separator} ${spacedText}`;
         }
         
+        console.log('Texto procesado:', repeatedText);
+        
         // Crear un elemento temporal para medir el texto con espaciado
         const tempText = document.createElementNS('http://www.w3.org/2000/svg', 'text');
         tempText.setAttribute('font-size', fontSize);
@@ -39,10 +49,14 @@ document.addEventListener('DOMContentLoaded', function() {
         const textLength = tempText.getComputedTextLength();
         document.body.removeChild(tempText);
         
+        console.log('Longitud del texto:', textLength);
+        
         // Calcular el radio basado en la longitud del texto con espaciado
         const circumference = textLength * 1.4; // 40% de margen para separadores
         const radius = circumference / (2 * Math.PI);
         const finalRadius = Math.max(radius, size / 4); // Radio mínimo
+        
+        console.log('Radio calculado:', finalRadius);
         
         // Crear el SVG
         const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
@@ -79,10 +93,14 @@ document.addEventListener('DOMContentLoaded', function() {
         svg.appendChild(textElement);
         
         element.appendChild(svg);
+        console.log('SVG creado y agregado al elemento');
     }
     
     // Aplicar a todos los elementos con clase circular-text
-    document.querySelectorAll('.circular-text').forEach(createCircularText);
+    const elements = document.querySelectorAll('.circular-text');
+    console.log('Elementos encontrados:', elements.length);
+    
+    elements.forEach(createCircularText);
     
     // Función para recalcular en caso de redimensionamiento
     window.addEventListener('resize', function() {
