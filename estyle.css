@@ -15,13 +15,17 @@ body {
     display: inline-block;
     width: 400px;
     height: 400px;
+    background-color: #000;
+    border-radius: 50%;
+    padding: 10px;
 }
 
 .circular-text svg {
     width: 100%;
     height: 100%;
-    background: #000;
+    background-color: #000;
     border-radius: 50%;
+    display: block;
 }
 
 .circular-text text {
