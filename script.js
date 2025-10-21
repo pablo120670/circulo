@@ -16,14 +16,7 @@ document.addEventListener('DOMContentLoaded', function() {
     svg.setAttribute('height', size);
     svg.setAttribute('viewBox', `0 0 ${size} ${size}`);
     
-    // Crear círculo de referencia
-    const circle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
-    circle.setAttribute('cx', size/2);
-    circle.setAttribute('cy', size/2);
-    circle.setAttribute('r', size/2 - 30);
-    circle.setAttribute('fill', 'none');
-    circle.setAttribute('stroke', '#333');
-    circle.setAttribute('stroke-width', '1');
+    // Círculo de referencia removido
     
     // Crear path circular para el texto
     const radius = size/2 - 40;
@@ -49,7 +42,6 @@ document.addEventListener('DOMContentLoaded', function() {
     textElement.appendChild(textPath);
     
     // Agregar elementos al SVG
-    svg.appendChild(circle);
     svg.appendChild(path);
     svg.appendChild(textElement);
     
